@@ -1,7 +1,7 @@
 <?php
 require_once 'controllers/authController.php';
 require_once 'controllers/adminController.php';
-require_once 'controllers/ticketController.php';
+require_once 'controllers/usuarioController.php';
 require_once 'controllers/soporteController.php';
 
 // Manejar controladores y acciones
@@ -21,9 +21,9 @@ switch ($controller) {
         $adminController = new AdminController();
         $adminController->$action();
         break;
-    case 'ticket':
-        $ticketController = new TicketController();
-        $ticketController->$action();
+    case 'usuario':
+        $usuarioController = new UsuarioController();
+        $usuarioController->$action();
         break;
     case 'soporte':
         $soporteController = new SoporteController();

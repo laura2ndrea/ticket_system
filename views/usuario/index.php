@@ -1,111 +1,64 @@
-<!-- /views/usuario/index.php -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <title>Usuarios</title>
+    <title>Mis Tickets</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1>Lista de Usuarios</h1>
-         <!-- Botón para agregar un nuevo usuario -->
-        <a href="index.php?controller=usuario&action=store" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalCreateUser">Agregar Nuevo Usuario</a>
 
+<div class="container mt-4">
+    <h2>Mis tickets de soporte</h2>
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#crearTicketModal">Crear Nuevo Ticket</button>
+    
+    <!-- Tabla de tickets -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Asunto</th>
+                <th>Descripción</th>
+                <th>Fecha de creación</th>
+                <th>Respuesta</th>
+                <th>Fecha de respuesta</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody id="tickets-list">
+            <!-- Los tickets se cargarán dinámicamente aquí -->
+        </tbody>
+    </table>
 
-        <!-- Tabla de usuarios -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nick</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($usuarios)): ?>
-                    <?php foreach ($usuarios as $usuario): ?>
-                        <tr>
-                            <td><?= $usuario['id_usuario']; ?></td>
-                            <td><?= $usuario['nick']; ?></td>
-                            <td><?= $usuario['correo']; ?></td>
-                            <td><?= $usuario['rol']; ?></td>
-                            <td><?= $usuario['estado']; ?></td>
-                            <td>
-                                <!-- Botones de acción -->
-                                <a href="index.php?controller=usuario&action=editar&id=<?= $usuario['id_usuario']; ?>" class="btn btn-warning btn-sm">Editar</a>
-                                <a href="index.php?controller=usuario&action=eliminar&id=<?= $usuario['id_usuario']; ?>" class="btn btn-danger btn-sm">Eliminar</a>
-
-                                <!-- Botones para cambiar el estado -->
-                                <?php if ($usuario['estado'] === 'Activo'): ?>
-                                    <a href="index.php?controller=usuario&action=cambiarEstado&id=<?= $usuario['id_usuario']; ?>&estado=Inactivo" class="btn btn-secondary btn-sm">Desactivar</a>
-                                <?php else: ?>
-                                    <a href="index.php?controller=usuario&action=cambiarEstado&id=<?= $usuario['id_usuario']; ?>&estado=Activo" class="btn btn-success btn-sm">Activar</a>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="6">No hay usuarios disponibles.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-
-    </div>
-      <!-- Modal para crear un nuevo usuario -->
-      <div class="modal fade" id="modalCreateUser" tabindex="-1" aria-labelledby="modalCreateUserLabel" aria-hidden="true">
+    <!-- Modal para crear un ticket -->
+    <div class="modal fade" id="crearTicketModal" tabindex="-1" aria-labelledby="crearTicketModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalCreateUserLabel">Crear Nuevo Usuario</h5>
+                    <h5 class="modal-title" id="crearTicketModalLabel">Crear nuevo ticket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario para crear un nuevo usuario -->
-                    <form id="createUserForm" action="index.php?controller=usuario&action=store" method="POST">
+                    <form id="crear-ticket-form">
                         <div class="mb-3">
-                            <label for="nick" class="form-label">Nick</label>
-                            <input type="text" class="form-control" id="nick" name="nick" required>
+                            <label for="asunto" class="form-label">Asunto</label>
+                            <input type="text" class="form-control" id="asunto" name="asunto" required>
                         </div>
                         <div class="mb-3">
-                            <label for="correo" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="correo" name="correo" required>
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="contrasenia" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="rol" class="form-label">Rol</label>
-                            <select class="form-control" id="rol" name="rol" required>
-                                <option value="1">Administrador</option>
-                                <option value="2">Responsable de Soporte</option>
-                                <option value="3">Usuario</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-control" id="estado" name="estado" required>
-                                <option value="1">Activo</option>
-                                <option value="2">Inactivo</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-success">Crear Usuario</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Crear ticket</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/usuario.js"></script>
 </body>
 </html>
