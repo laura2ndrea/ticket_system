@@ -41,7 +41,7 @@
                             <td>
                                 <!-- Botones de acción -->
                                 <a href="index.php?controller=usuario&action=editar&id=<?= $usuario['id_usuario']; ?>" class="btn btn-warning btn-sm">Editar</a>
-                                <a href="index.php?controller=usuario&action=eliminar&id=<?= $usuario['id_usuario']; ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                                <a href="index.php?controller=usuario&action=eliminar&id=<?= $usuario['id_usuario']; ?>" onclick="confirmDelete(<?= $usuario['id_usuario']; ?>)" class="btn btn-danger btn-sm">Eliminar</a>
 
                                 <!-- Botones para cambiar el estado -->
                                 <?php if ($usuario['estado'] === 'Activo'): ?>
