@@ -36,7 +36,7 @@ class AuthController {
                 } elseif ($_SESSION['id_rol'] == 2) {
                     header('Location: index.php?controller=soporte&action=index');
                 } else {
-                    header('Location: index.php?controller=usuario&action=obtenerTickets');
+                    header('Location: index.php?controller=usuario&action=index');
                 }
             } else {
                 echo "Credenciales incorrectas. Intenta nuevamente.";
