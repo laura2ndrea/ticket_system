@@ -14,6 +14,12 @@
     <div class="container mt-5">
         <h1>Administrar usuarios</h1>
 
+        <div style="text-align: right; padding: 10px;">
+            <form action="index.php?controller=auth&action=logout" method="POST">
+                <button type="submit" class="btn btn-outline-danger btn-sm">Cerrar sesión</button>
+            </form>
+        </div>
+
         <!-- Botón para agregar un nuevo usuario -->
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalCreateUser">Agregar usuario</button>
 

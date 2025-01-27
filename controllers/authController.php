@@ -12,11 +12,6 @@ class AuthController {
         $this->authModelModel = new AuthModel();
     }
 
-    // Mostrar el formulario de login
-    //public function loginForm() {
-        //include 'views/login.php';
-    //}
-
     // Procesar el login
     public function login() {
         session_start();
@@ -54,7 +49,7 @@ class AuthController {
     public function logout() {
         session_start();
         session_destroy();
-        header('Location: index.php?controller=auth&action=loginForm');
+        header('Location: index.php?controller=auth&action=login');
         exit();
     }
 }

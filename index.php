@@ -11,6 +11,10 @@ $action = $_GET['action'] ?? 'login';
 switch ($controller) {
     case 'auth':
         $authController = new AuthController();
+        if ($action == 'logout') {
+            $authController->logout();
+            exit;
+        }
         $authController->$action();
         break;
     case 'admin':
