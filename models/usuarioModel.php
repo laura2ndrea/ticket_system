@@ -59,7 +59,7 @@ class UsuarioModel {
         $stmt->execute([
             ':nick' => $nick,
             ':correo' => $correo,
-            ':contrasenia' => password_hash($contrasenia, PASSWORD_BCRYPT),
+            ':contrasenia' => $contrasenia,//password_hash($contrasenia, PASSWORD_BCRYPT),
             ':id_rol' => $id_rol,
             ':id_estado' => $id_estado
         ]);

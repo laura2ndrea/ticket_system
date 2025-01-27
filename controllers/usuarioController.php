@@ -16,20 +16,28 @@ class UsuarioController {
         require 'views/usuario/index.php'; // Cargar la vista con los usuarios
     }
 
+    /*public function create() {
+        require 'views/usuario/create.php';
+    }*/
+
       // Crear usuario
-      public function crear() {
+      public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nick = $_POST['nick'];
             $correo = $_POST['correo'];
             $contrasenia = $_POST['contrasenia'];
-            $id_rol = $_POST['id_rol'];
-            $id_estado = $_POST['id_estado'];
-            $this->usuarioModel->crearUsuario($nick, $correo, $contrasenia, $id_rol, $id_estado);
-            header('Location: index.php?controller=usuario&action=index');
+            $id_rol = $_POST['rol'];
+            $id_estado = $_POST['estado'];
+            if ($id_rol && $id_estado) {
+                $this->usuarioModel->crearUsuario($nick, $correo, $contrasenia, $id_rol, $id_estado);
+                header('Location: index.php?controller=usuario&action=index');
+            } else {
+                echo "Error: Rol o estado no definidos.";
+            }
         }
-        $roles = $this->usuarioModel->obtenerRoles();
-        $estados = $this->usuarioModel->obtenerEstados();
-        require 'views/usuario/crear.php'; 
+        //$roles = $this->usuarioModel->obtenerRoles();
+       // $estados = $this->usuarioModel->obtenerEstados();
+        //require 'views/usuario/crear.php'; 
     }
 
     // Editar usuario
@@ -42,6 +50,7 @@ class UsuarioController {
             $id_estado = $_POST['id_estado'];
             $this->usuarioModel->actualizarUsuario($id_usuario, $nick, $correo, $id_rol, $id_estado);
             header('Location: index.php?controller=usuario&action=index');
+            require 'views/usuario/index.php';
         }
 
         // Cargar los datos actuales del usuario para editarlos
