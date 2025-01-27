@@ -72,12 +72,18 @@ class UsuarioController {
         }
     }
 
-     // Cambiar el estado de un usuario
-     public function cambiarEstado() {
+    public function cambiarEstado() {
         if (isset($_GET['id']) && isset($_GET['estado'])) {
-            $id_usuario = $_GET['id'];
-            $id_estado = $_GET['estado'];
-            $this->usuarioModel->cambiarEstadoUsuario($id_usuario, $id_estado);
+            $id_usuario = $_GET['id']; // Obtener el ID del usuario desde la URL
+            $nuevoEstado = $_GET['estado']; // Obtener el nuevo estado (Activo/Inactivo)
+
+            // Llamar al método del modelo para cambiar el estado del usuario
+            $this->usuarioModel->cambiarEstadoUsuario($id_usuario, $nuevoEstado);
+
+            // Redirigir a la lista de usuarios después de actualizar el estado
+            header('Location: index.php?controller=usuario&action=index');
+        } else {
+            // Si no se pasan los parámetros necesarios, redirigir al índice
             header('Location: index.php?controller=usuario&action=index');
         }
     }

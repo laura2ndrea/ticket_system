@@ -98,13 +98,16 @@ class UsuarioModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Cambiar el estado de un usuario
-    public function cambiarEstadoUsuario($id_usuario, $id_estado) {
+    public function cambiarEstadoUsuario($id_usuario, $nuevoEstado) {
         global $pdo;
-        $sql = "UPDATE usuario SET id_estado = :id_estado WHERE id_usuario = :id_usuario";
+        // Determinar el ID del estado basado en el valor de $nuevoEstado
+        $estadoId = ($nuevoEstado === 'Activo') ? 1 : 2; // Asumiendo que 1 es "Activo" y 2 es "Inactivo"
+
+        // Consulta para actualizar el estado del usuario
+        $sql = "UPDATE usuario SET id_estado = :estadoId WHERE id_usuario = :id_usuario";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
-            ':id_estado' => $id_estado,
+            ':estadoId' => $estadoId,
             ':id_usuario' => $id_usuario
         ]);
     }

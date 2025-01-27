@@ -41,13 +41,13 @@
                             <td>
                                 <!-- Botones de acción -->
                                 <a href="index.php?controller=usuario&action=editar&id=<?= $usuario['id_usuario']; ?>" class="btn btn-warning btn-sm">Editar</a>
-                                <a href="index.php?controller=usuario&action=eliminar&id=<?= $usuario['id_usuario']; ?>" onclick="confirmDelete(<?= $usuario['id_usuario']; ?>)" class="btn btn-danger btn-sm">Eliminar</a>
+                                <a href="index.php?controller=usuario&action=eliminar&id=<?= $usuario['id_usuario']; ?>" class="btn btn-danger btn-sm">Eliminar</a>
 
                                 <!-- Botones para cambiar el estado -->
                                 <?php if ($usuario['estado'] === 'Activo'): ?>
-                                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm">Desactivar</a>
+                                    <a href="index.php?controller=usuario&action=cambiarEstado&id=<?= $usuario['id_usuario']; ?>&estado=Inactivo" class="btn btn-secondary btn-sm">Desactivar</a>
                                 <?php else: ?>
-                                    <a href="javascript:void(0);" class="btn btn-success btn-sm">Activar</a>
+                                    <a href="index.php?controller=usuario&action=cambiarEstado&id=<?= $usuario['id_usuario']; ?>&estado=Activo" class="btn btn-success btn-sm">Activar</a>
                                 <?php endif; ?>
                             </td>
                         </tr>
