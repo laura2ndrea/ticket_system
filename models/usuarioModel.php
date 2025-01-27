@@ -3,6 +3,18 @@
 require_once 'database/connection.php';
 
 class UsuarioModel {
+
+    public function verificarCredenciales($correo) {
+        global $pdo;
+    
+        $sql = "SELECT * FROM usuario WHERE correo = :correo";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':correo' => $correo]);
+        
+        // Retornar el usuario si existe o null si no se encuentra
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
     public function verificarUsuario($correo, $contrasenia) {
         global $pdo;
         $sql = "SELECT * FROM usuario WHERE correo = :correo AND contrasenia = :contrasenia";
