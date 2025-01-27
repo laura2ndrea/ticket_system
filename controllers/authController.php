@@ -15,7 +15,7 @@ class AuthController {
                 session_start();
                 $_SESSION['id_usuario'] = $usuario['id_usuario'];
                 $_SESSION['nick'] = $usuario['nick'];
-                header('Location: index.php?controller=usuario&action=index');
+                header('Location: index.php?controller=ticket&action=index');
             } else {
                 echo "Correo o contraseña incorrectos.";
             }

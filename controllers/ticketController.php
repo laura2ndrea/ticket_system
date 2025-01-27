@@ -3,29 +3,34 @@
 require_once 'models/ticketModel.php';
 
 class TicketController {
-    public function crear() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Recoger los datos del formulario
+    private $ticketModel;
+
+    public function __construct() {
+        $this->ticketModel = new TicketModel(); // Instanciamos el modelo
+    }
+
+    public function index() {
+        // Obtenemos todos los tickets desde el modelo
+        $tickets = $this->ticketModel->obtenerTodosTickets();
+        
+        // Pasamos los tickets a la vista
+        include 'views/ticket/index.php';
+    } 
+    
+      // Crear un nuevo ticket (mostrar el modal o procesar el formulario)
+      public function create() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Recuperar los datos del formulario
             $asunto = $_POST['asunto'];
             $descripcion = $_POST['descripcion'];
-            $usuario_creacion = $_SESSION['id_usuario']; // Usuario logueado
+            $id_usuario = 1; // Por ahora, asignamos un usuario fijo, puedes cambiarlo según la sesión
+            $id_estado_ticket = 1; // Asignamos el estado "Abierto"
 
-            // Validaciones (puedes agregar más según los requisitos)
-            if (empty($asunto) || empty($descripcion)) {
-                echo json_encode(['success' => false, 'message' => 'Todos los campos son obligatorios.']);
-                return;
-            }
+            // Llamamos al modelo para insertar el ticket
+            $this->ticketModel->crearTicket($asunto, $descripcion, $id_usuario, $id_estado_ticket);
 
-            $ticketModel = new TicketModel();
-            $resultado = $ticketModel->crearTicket($asunto, $descripcion, $usuario_creacion);
-
-            if ($resultado) {
-                echo json_encode(['success' => true, 'message' => 'Ticket creado con éxito.']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Hubo un error al crear el ticket.']);
-            }
-        } else {
-            require_once 'views/crear_ticket.php';
+            // Redirigimos a la lista de tickets
+            header('Location: index.php?controller=ticket&action=index');
         }
     }
 }

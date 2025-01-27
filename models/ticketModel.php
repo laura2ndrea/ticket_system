@@ -3,15 +3,24 @@
 require_once 'database/connection.php';
 
 class TicketModel {
-    public function crearTicket($asunto, $descripcion, $usuario_creacion) {
+    // Crear un nuevo ticket en la base de datos
+    public function crearTicket($asunto, $descripcion, $id_usuario, $id_estado_ticket) {
         global $pdo;
-        $sql = "INSERT INTO ticket (asunto, descripcion, usuario_creacion, fecha_creacion) 
-                VALUES (:asunto, :descripcion, :usuario_creacion, NOW())";
+        $sql = "INSERT INTO ticket (asunto, descripcion, usuario_creacion, fecha_creacion, id_estado_ticket) 
+                VALUES (:asunto, :descripcion, :usuario_creacion, NOW(), :id_estado_ticket)";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':asunto', $asunto);
-        $stmt->bindParam(':descripcion', $descripcion);
-        $stmt->bindParam(':usuario_creacion', $usuario_creacion);
+        $stmt->execute([
+            ':asunto' => $asunto,
+            ':descripcion' => $descripcion,
+            ':usuario_creacion' => $id_usuario,
+            ':id_estado_ticket' => $id_estado_ticket
+        ]);
+    }
 
-        return $stmt->execute(); // Retorna true si se ejecuta correctamente
+    public function obtenerTodosTickets() {
+        global $pdo; // Usamos la conexión global
+        $sql = "SELECT * FROM ticket"; // Puedes modificar la consulta si necesitas más información o filtrado
+        $stmt = $pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retornamos todos los tickets en formato de array asociativo
     }
 }
